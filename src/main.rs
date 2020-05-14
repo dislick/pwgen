@@ -41,12 +41,12 @@ fn main() {
 }
 
 fn setup_charsets() -> Vec<Charset> {
-    let alphabet = Charset::new(&CHARSET_ALPHABET);
-    let alphabet_uppercase = Charset::new(&CHARSET_ALPHABET_UPPERCASE);
-    let numbers = Charset::new(&CHARSET_NUMBERS);
-    let special = Charset::new(&CHARSET_SPECIAL);
-
-    vec![alphabet, alphabet_uppercase, numbers, special]
+    vec![
+        Charset::new(&CHARSET_ALPHABET),
+        Charset::new(&CHARSET_ALPHABET_UPPERCASE),
+        Charset::new(&CHARSET_NUMBERS),
+        Charset::new(&CHARSET_SPECIAL),
+    ]
 }
 
 fn get_random_charset(charsets: &Vec<Charset>) -> &Charset {
