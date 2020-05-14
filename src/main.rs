@@ -1,17 +1,38 @@
 mod charset;
 mod consts;
 
+extern crate clap;
+
 use crate::charset::*;
 use crate::consts::*;
+use clap::{App, Arg};
 use rand::Rng;
 
-const PASSWORD_LENGTH: i32 = 30;
-
 fn main() {
+    let matches = App::new("pwgen")
+        .version("0.1.0")
+        .author("Patrick Muff <muff.pa@gmail.com>")
+        .about("Generates random passwords")
+        .arg(
+            Arg::with_name("length")
+                .short("l")
+                .long("length")
+                .default_value("30")
+                .help("Determines password length")
+                .takes_value(true),
+        )
+        .get_matches();
+
+    let password_length: u32 = matches
+        .value_of("length")
+        .unwrap()
+        .parse()
+        .expect("Password length must be a number");
+
     let mut password = String::new();
     let charsets = setup_charsets();
 
-    for _ in 0..PASSWORD_LENGTH {
+    for _ in 0..password_length {
         let charset = get_random_charset(&charsets);
         password.push(charset.get_rand_char());
     }
