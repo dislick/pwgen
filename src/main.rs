@@ -1,31 +1,25 @@
 mod charset;
 mod consts;
 
+#[macro_use]
 extern crate clap;
 
 use crate::charset::*;
 use crate::consts::*;
-use clap::{App, Arg};
 use rand::Rng;
 
 fn main() {
-    let matches = App::new("pwgen")
-        .version("0.1.0")
-        .author("Patrick Muff <muff.pa@gmail.com>")
-        .about("Generates random passwords")
-        .arg(
-            Arg::with_name("length")
-                .short("l")
-                .long("length")
-                .default_value("30")
-                .help("Determines password length")
-                .takes_value(true),
-        )
-        .get_matches();
+    let matches = clap_app!(myapp =>
+        (version: "0.1.0")
+        (author: "Patrick Muff <muff.pa@gmail.com>")
+        (about: "Generates random passwords")
+        (@arg LENGTH: -l --length +takes_value "Sets password length")
+    )
+    .get_matches();
 
     let password_length: u32 = matches
-        .value_of("length")
-        .unwrap()
+        .value_of("LENGTH")
+        .unwrap_or("30")
         .parse()
         .expect("Password length must be a number");
 
