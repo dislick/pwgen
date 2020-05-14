@@ -1,7 +1,7 @@
-mod charsets;
+mod charset;
 mod consts;
 
-use crate::charsets::*;
+use crate::charset::*;
 use crate::consts::*;
 use rand::Rng;
 
