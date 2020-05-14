@@ -5,9 +5,9 @@ pub struct Charset {
 }
 
 impl Charset {
-  pub fn new(charset: &[char]) -> Charset {
+  pub fn new(chars: &[char]) -> Charset {
     Charset {
-      chars: charset.to_vec(),
+      chars: chars.to_vec(),
     }
   }
 
