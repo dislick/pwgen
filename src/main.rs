@@ -9,7 +9,7 @@ use crate::consts::*;
 use rand::Rng;
 
 fn main() {
-    let matches = clap_app!(myapp =>
+    let matches = clap_app!(pwgen =>
         (version: "0.1.0")
         (author: "Patrick Muff <muff.pa@gmail.com>")
         (about: "Generates random passwords")
