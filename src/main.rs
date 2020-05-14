@@ -1,6 +1,8 @@
 mod charsets;
+mod consts;
 
 use crate::charsets::*;
+use crate::consts::*;
 use rand::Rng;
 
 const PASSWORD_LENGTH: i32 = 30;
@@ -21,8 +23,9 @@ fn setup_charsets() -> Vec<Charset> {
     let alphabet = Charset::new(&CHARSET_ALPHABET);
     let alphabet_uppercase = Charset::new(&CHARSET_ALPHABET_UPPERCASE);
     let numbers = Charset::new(&CHARSET_NUMBERS);
+    let special = Charset::new(&CHARSET_SPECIAL);
 
-    vec![alphabet, alphabet_uppercase, numbers]
+    vec![alphabet, alphabet_uppercase, numbers, special]
 }
 
 fn get_random_charset(charsets: &Vec<Charset>) -> &Charset {
