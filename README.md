@@ -27,6 +27,7 @@ OPTIONS:
 SUBCOMMANDS:
     help      Prints this message or the help of the given subcommand(s)
     secret    Creates secret with at least 256 bits of entropy
+    wifi      Creates a wifi friendly password
 ```
 
 ## Defaults
