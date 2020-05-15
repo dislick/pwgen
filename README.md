@@ -46,56 +46,63 @@ Without charset flags (`-a`, `-A`, `-n`, or `-s`) present, it uses all possible 
 
 ## Examples
 
-`pwgen`
+### `pwgen`
 
-```bash
-# length defaults to 40, because 91 distinct chars are available
+Length defaults to 40, because 91 distinct chars are available.
+
+```
 s7YRg_L!5,b10e9{R57842/5]/3@2Fc3y57i[3g\
 ```
 
-`pwgen -a`
+### `pwgen -a`
 
-```bash
-# length defaults to 55, because 26 distinct chars are available
+Length defaults to 55, because 26 distinct chars are available.
+
+```
 cqkptjdawtbzmcdojiqwtcabvkragecntdctxwvwhtwbhgxdnfshvyj
 ```
 
-`pwgen -A`
+### `pwgen -A`
 
-```bash
-# length defaults to 55, because 26 distinct chars are available
+Length defaults to 55, because 26 distinct chars are available
+
+```
 GZWHIQEZMWJSAPPIULBYHIRMGJHYFKERLDYTABWFIKICTCJACTGIWEZ
 ```
 
-`pwgen -Aa`
+### `pwgen -Aa`
 
-```bash
-# length defaults to 45, because 52 distinct chars are available
+Length defaults to 45, because 52 distinct chars are available.
+
+```
 qvaPlUtPsYpTDTYOPwBbFclwYNDjLUqdrAhRRLdQoyEZu
 ```
 
-`pwgen -n`
+### `pwgen -n`
 
-```bash
-# length defaults to 78, because 10 distinct chars are available
+Length defaults to 78, because 10 distinct chars are available.
+
+```
 292040492503533901251005568137604050532386930398662181203682665536587940100830
 ```
 
-`pwgen -s`
+### `pwgen -s`
 
-```bash
-# length defaults to 53, because 29 distinct chars are available
+Length defaults to 53, because 29 distinct chars are available.
+
+```
 )}:!([_[^<&;@>}>-~;=({@[\@>,[,~<\=?.=,*]#_(};.?;<~@^[
 ```
 
-`pwgen -l 20`
+### `pwgen -l 20`
 
-```bash
-# length is hard-set to 20
+Length is hard-set to 20.
+
+```
 C4Y0iN77K*4^SzFeG{HY
 ```
 
-`pwgen -l 20 -c 5`
+### `pwgen -l 20 -c 5`
 
 ```
 X!Lv2|^;Z]Y[436Ven.F
@@ -105,7 +112,7 @@ pQ6UmkIu3_7p#T_ZSDUa
 kucJ%~45g69Zan7-,Y7Q
 ```
 
-`pwgen secret`
+### `pwgen secret`
 
 ```
 Lp47SqOH6BJYg59HDvYTP1zo1BpKa0hN51U6Rlrcb6n
