@@ -110,3 +110,9 @@ kucJ%~45g69Zan7-,Y7Q
 ```
 Lp47SqOH6BJYg59HDvYTP1zo1BpKa0hN51U6Rlrcb6n
 ```
+
+#### `pwgen wifi`
+
+```
+3ehu-u4z2-jy09-107k
+```

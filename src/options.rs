@@ -16,6 +16,7 @@ pub struct GeneratorOptions {
 pub enum SubCommand {
   None,
   Secret,
+  WiFi,
 }
 
 impl Options {
@@ -32,7 +33,10 @@ impl Options {
         (@arg SPECIAL: -s --special "Use SPECIAL (*, %, -, ...) charset")
         (@subcommand secret =>
           (about: "Creates secret with at least 256 bits of entropy")
-      )
+        )
+        (@subcommand wifi =>
+          (about: "Creates a wifi friendly password")
+        )
     )
     .get_matches();
 
@@ -62,6 +66,7 @@ impl Options {
     Options {
       subcommand: match matches.subcommand_name().unwrap_or("") {
         "secret" => SubCommand::Secret,
+        "wifi" => SubCommand::WiFi,
         _ => SubCommand::None,
       },
 

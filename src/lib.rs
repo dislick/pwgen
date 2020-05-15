@@ -26,6 +26,7 @@ pub fn run(options: &Options) -> Result<Vec<String>, Box<dyn std::error::Error>>
         return Ok(pass_list);
       }
     }
+
     // Mode: Secret
     SubCommand::Secret => {
       let charsets = vec![
@@ -39,6 +40,29 @@ pub fn run(options: &Options) -> Result<Vec<String>, Box<dyn std::error::Error>>
         charsets,
       };
       return Ok(vec![gen_password(&options)]);
+    }
+
+    // Mode: WiFi
+    SubCommand::WiFi => {
+      let charsets = vec![
+        Charset::new(&CHARSET_ALPHABET),
+        Charset::new(&CHARSET_NUMBERS),
+      ];
+      let options = GeneratorOptions {
+        length: get_length_for_entropy(128, count_chars_in_charsets(&charsets)),
+        count: 1,
+        charsets,
+      };
+
+      let pass = gen_password(&options);
+
+      return Ok(vec![format!(
+        "{}-{}-{}-{}",
+        &pass[0..4],
+        &pass[4..8],
+        &pass[8..12],
+        &pass[12..16]
+      )]);
     }
   }
 }
