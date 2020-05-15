@@ -32,11 +32,11 @@ impl Options {
         (@arg SPECIAL: -s --special "Use SPECIAL (*, %, -, ...) charset")
         (@subcommand secret =>
           (about: "Creates secret with at least 256 bits of entropy")
-          (@arg COUNT: -c --count +takes_value "Amount of passwords")
+          (@arg COUNT: -c --count +takes_value "Amount of secrets")
         )
         (@subcommand wifi =>
           (about: "Creates a wifi friendly password")
-          (@arg COUNT: -c --count +takes_value "Amount of passwords")
+          (@arg COUNT: -c --count +takes_value "Amount of wifi friendly passwords")
         )
     )
     .get_matches();
