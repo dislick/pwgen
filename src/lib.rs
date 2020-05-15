@@ -28,20 +28,17 @@ pub fn run(options: &Options) -> Result<Vec<String>, Box<dyn std::error::Error>>
     }
     // Mode: Secret
     SubCommand::Secret => {
-      let secret_charsets = vec![
+      let charsets = vec![
         Charset::new(&CHARSET_ALPHABET),
         Charset::new(&CHARSET_ALPHABET_UPPERCASE),
         Charset::new(&CHARSET_NUMBERS),
       ];
-      let options_secret = GeneratorOptions {
-        length: get_length_for_entropy(
-          MINIMUM_ENTROPY_IN_BITS,
-          count_chars_in_charsets(&secret_charsets),
-        ),
+      let options = GeneratorOptions {
+        length: get_length_for_entropy(MINIMUM_ENTROPY_IN_BITS, count_chars_in_charsets(&charsets)),
         count: 1,
-        charsets: secret_charsets,
+        charsets,
       };
-      return Ok(vec![gen_password(&options_secret)]);
+      return Ok(vec![gen_password(&options)]);
     }
   }
 }
