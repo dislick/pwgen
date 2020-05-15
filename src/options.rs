@@ -10,7 +10,7 @@ pub enum SubCommand {
 }
 
 impl Options {
-  pub fn setup() -> Options {
+  pub fn from_args() -> Options {
     let matches = clap_app!(pwgen =>
         (version: "0.1.0")
         (author: "Patrick Muff <muff.pa@gmail.com>")

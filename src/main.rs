@@ -1,7 +1,10 @@
 use std::process;
 
 fn main() {
-    let options = pwgen::Options::setup();
+    // Parse cli arguments
+    let options = pwgen::Options::from_args();
+
+    // Static options for subcommands
     let options_secret = pwgen::Options {
         length: 256, // TODO: this is not 256 bits of entropy, but much more.
         count: 1,
