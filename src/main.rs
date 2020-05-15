@@ -10,18 +10,17 @@ fn main() {
   match run(&options) {
     Ok(passwords) => {
       // If there is only one password being returned, copy it to clipboard
+      // before printing to stdout.
       if passwords.len() == 1 {
         let mut ctx: ClipboardContext = ClipboardProvider::new().unwrap();
         if let Err(e) = ctx.set_contents(passwords[0].clone()) {
           eprintln!("Could not copy password to clipboard: {}", e);
           process::exit(1);
         }
-        println!("{}", passwords[0]);
-      } else {
-        // For multiple passwords, print them to stdout
-        for pass in passwords {
-          println!("{}", pass);
-        }
+      }
+
+      for pass in passwords {
+        println!("{}", pass);
       }
     }
     Err(e) => {
