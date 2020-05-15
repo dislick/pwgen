@@ -11,7 +11,7 @@ Basic CLI password generator. I wasn't satisfied with the speed of [my other pas
 - [ ] Documentation
 - [ ] Tests
 
-### Usage
+## Usage
 
 ```
 pwgen 0.1.0
@@ -38,17 +38,60 @@ SUBCOMMANDS:
     secret    Creates secret with at least 256 bits of entropy
 ```
 
-### Examples
+## Defaults
+
+If you run `pwgen` without a `--length` option it will determine the length based on the available charsets to get **at least 256 bits of entropy**. The less different characters that are available through those charsets, the longer the password will get.
+
+Without charset flags (`-a`, `-A`, `-n`, or `-s`) present, it uses all possible charsets.
+
+## Examples
 
 `pwgen`
 
+```bash
+# length defaults to 40, because 91 distinct chars are available
+s7YRg_L!5,b10e9{R57842/5]/3@2Fc3y57i[3g\
 ```
-21d)ipWgPkd^/xQ495c58l{46ggHTb
+
+`pwgen -a`
+
+```bash
+# length defaults to 55, because 26 distinct chars are available
+cqkptjdawtbzmcdojiqwtcabvkragecntdctxwvwhtwbhgxdnfshvyj
+```
+
+`pwgen -A`
+
+```bash
+# length defaults to 55, because 26 distinct chars are available
+GZWHIQEZMWJSAPPIULBYHIRMGJHYFKERLDYTABWFIKICTCJACTGIWEZ
+```
+
+`pwgen -Aa`
+
+```bash
+# length defaults to 45, because 52 distinct chars are available
+qvaPlUtPsYpTDTYOPwBbFclwYNDjLUqdrAhRRLdQoyEZu
+```
+
+`pwgen -n`
+
+```bash
+# length defaults to 78, because 10 distinct chars are available
+292040492503533901251005568137604050532386930398662181203682665536587940100830
+```
+
+`pwgen -s`
+
+```bash
+# length defaults to 53, because 29 distinct chars are available
+)}:!([_[^<&;@>}>-~;=({@[\@>,[,~<\=?.=,*]#_(};.?;<~@^[
 ```
 
 `pwgen -l 20`
 
-```
+```bash
+# length is hard-set to 20
 C4Y0iN77K*4^SzFeG{HY
 ```
 

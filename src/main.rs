@@ -1,3 +1,4 @@
+use pwgen::*;
 use std::process;
 
 fn main() {
@@ -5,27 +6,21 @@ fn main() {
     let options = pwgen::Options::from_args();
 
     // Static options for subcommands
-    let options_secret = pwgen::GeneratorOptions {
-        // The listed charsets below contain 62 different characters. To
-        // determine which password length is needed to get to 256 bits of
-        // entropy, one needs to solve the following equation:
-
-        // 2^256 = 62^x
-        // (256 log(2))/log(62) = x
-        // (256 log(2))/log(62) = ~42.995
-
-        // Therefore pwgen generates a password of length 43, which is a _bit_
-        // more entropy than 2^256.
-        length: 43,
+    let secret_charsets = vec![
+        Charset::new(&pwgen::CHARSET_ALPHABET),
+        Charset::new(&pwgen::CHARSET_ALPHABET_UPPERCASE),
+        Charset::new(&pwgen::CHARSET_NUMBERS),
+    ];
+    let options_secret = GeneratorOptions {
+        length: get_length_for_entropy(
+            MINIMUM_ENTROPY_IN_BITS,
+            count_chars_in_charsets(&secret_charsets),
+        ),
         count: 1,
-        charsets: vec![
-            pwgen::Charset::new(&pwgen::CHARSET_ALPHABET),
-            pwgen::Charset::new(&pwgen::CHARSET_ALPHABET_UPPERCASE),
-            pwgen::Charset::new(&pwgen::CHARSET_NUMBERS),
-        ],
+        charsets: secret_charsets,
     };
 
-    if let Err(e) = pwgen::run(&options, &options_secret) {
+    if let Err(e) = run(&options, &options_secret) {
         eprintln!("Application error: {}", e);
         process::exit(1);
     }

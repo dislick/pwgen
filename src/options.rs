@@ -58,6 +58,12 @@ impl Options {
       charsets.push(Charset::new(&CHARSET_SPECIAL));
     }
 
+    println!(
+      "{} {}",
+      get_length_for_entropy(MINIMUM_ENTROPY_IN_BITS, count_chars_in_charsets(&charsets)),
+      count_chars_in_charsets(&charsets)
+    );
+
     Options {
       subcommand: match matches.subcommand_name().unwrap_or("") {
         "secret" => SubCommand::Secret,
@@ -65,11 +71,12 @@ impl Options {
       },
 
       generator_options: GeneratorOptions {
-        length: matches
-          .value_of("LENGTH")
-          .unwrap_or("30")
-          .parse()
-          .expect("Password length must be a number"),
+        length: match matches.value_of("LENGTH") {
+          Some(len) => len.parse().expect("Length must be a number"),
+          None => {
+            get_length_for_entropy(MINIMUM_ENTROPY_IN_BITS, count_chars_in_charsets(&charsets))
+          }
+        },
         count: matches
           .value_of("COUNT")
           .unwrap_or("1")
@@ -78,5 +85,36 @@ impl Options {
         charsets,
       },
     }
+  }
+}
+
+pub fn count_chars_in_charsets(charsets: &Vec<Charset>) -> u32 {
+  let mut count: u32 = 0;
+  for charset in charsets {
+    count += charset.chars.len() as u32;
+  }
+  count
+}
+
+pub fn get_length_for_entropy(bits: u32, distinct_chars: u32) -> u32 {
+  // (bits * log(2)) / log(distinct_chars)
+  (bits as f64 * 2_f64.ln() / (distinct_chars as f64).ln()).ceil() as u32
+}
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  #[test]
+  fn test_256_bits_with_62_chars() {
+    // To reach 256 bits of entropy with 62 different characters you need a
+    // length of at least 43, as calculated below:
+
+    // 2^256 = 62^x
+    // (256 log(2))/log(62) = x
+    // (256 log(2))/log(62) = ~42.995
+
+    let length = get_length_for_entropy(256, 62);
+    assert_eq!(length, 43);
   }
 }
