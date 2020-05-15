@@ -40,6 +40,12 @@ SUBCOMMANDS:
 
 ### Examples
 
+`pwgen`
+
+```
+21d)ipWgPkd^/xQ495c58l{46ggHTb
+```
+
 `pwgen -l 20`
 
 ```
