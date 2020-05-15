@@ -9,23 +9,21 @@ extern crate clipboard;
 pub use crate::charset::*;
 pub use crate::consts::*;
 pub use crate::options::*;
-use clipboard::ClipboardContext;
-use clipboard::ClipboardProvider;
+
 use rand::Rng;
 
-pub fn run(options: &Options) -> Result<(), Box<dyn std::error::Error>> {
+pub fn run(options: &Options) -> Result<Vec<String>, Box<dyn std::error::Error>> {
   match options.subcommand {
     // Mode: Default
     SubCommand::None => {
       if options.generator_options.count == 1 {
-        let pass = gen_password(&options.generator_options);
-        let mut ctx: ClipboardContext = ClipboardProvider::new()?;
-        println!("{}", pass);
-        ctx.set_contents(pass)?;
+        return Ok(vec![gen_password(&options.generator_options)]);
       } else {
+        let mut pass_list: Vec<String> = Vec::new();
         for _ in 0..options.generator_options.count {
-          println!("{}", gen_password(&options.generator_options));
+          pass_list.push(gen_password(&options.generator_options));
         }
+        return Ok(pass_list);
       }
     }
     // Mode: Secret
@@ -43,11 +41,9 @@ pub fn run(options: &Options) -> Result<(), Box<dyn std::error::Error>> {
         count: 1,
         charsets: secret_charsets,
       };
-      println!("{}", gen_password(&options_secret))
+      return Ok(vec![gen_password(&options_secret)]);
     }
   }
-
-  Ok(())
 }
 
 pub fn gen_password(options: &GeneratorOptions) -> String {
