@@ -58,12 +58,6 @@ impl Options {
       charsets.push(Charset::new(&CHARSET_SPECIAL));
     }
 
-    println!(
-      "{} {}",
-      get_length_for_entropy(MINIMUM_ENTROPY_IN_BITS, count_chars_in_charsets(&charsets)),
-      count_chars_in_charsets(&charsets)
-    );
-
     Options {
       subcommand: match matches.subcommand_name().unwrap_or("") {
         "secret" => SubCommand::Secret,
