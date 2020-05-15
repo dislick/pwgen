@@ -15,20 +15,20 @@ use rand::Rng;
 pub fn run(options: &Options) -> Result<Vec<String>, Box<dyn std::error::Error>> {
   match options.subcommand {
     // Mode: Default
-    SubCommand::None => {
-      if options.generator_options.count == 1 {
-        return Ok(vec![gen_password(&options.generator_options)]);
+    SubCommand::None(count) => {
+      if count == 1 {
+        Ok(vec![gen_password(&options.generator_options)])
       } else {
         let mut pass_list: Vec<String> = Vec::new();
-        for _ in 0..options.generator_options.count {
+        for _ in 0..count {
           pass_list.push(gen_password(&options.generator_options));
         }
-        return Ok(pass_list);
+        Ok(pass_list)
       }
     }
 
     // Mode: Secret
-    SubCommand::Secret => {
+    SubCommand::Secret(count) => {
       let charsets = vec![
         Charset::new(&CHARSET_ALPHABET),
         Charset::new(&CHARSET_ALPHABET_UPPERCASE),
@@ -36,33 +36,39 @@ pub fn run(options: &Options) -> Result<Vec<String>, Box<dyn std::error::Error>>
       ];
       let options = GeneratorOptions {
         length: get_length_for_entropy(MINIMUM_ENTROPY_IN_BITS, count_chars_in_charsets(&charsets)),
-        count: 1,
         charsets,
       };
-      return Ok(vec![gen_password(&options)]);
+
+      let mut pass_list: Vec<String> = Vec::new();
+      for _ in 0..count {
+        pass_list.push(gen_password(&options));
+      }
+      Ok(pass_list)
     }
 
     // Mode: WiFi
-    SubCommand::WiFi => {
+    SubCommand::WiFi(count) => {
       let charsets = vec![
         Charset::new(&CHARSET_ALPHABET),
         Charset::new(&CHARSET_NUMBERS),
       ];
       let options = GeneratorOptions {
         length: get_length_for_entropy(128, count_chars_in_charsets(&charsets)),
-        count: 1,
         charsets,
       };
 
-      let pass = gen_password(&options);
-
-      return Ok(vec![format!(
-        "{}-{}-{}-{}",
-        &pass[0..4],
-        &pass[4..8],
-        &pass[8..12],
-        &pass[12..16]
-      )]);
+      let mut pass_list: Vec<String> = Vec::new();
+      for _ in 0..count {
+        let pass = gen_password(&options);
+        pass_list.push(format!(
+          "{}-{}-{}-{}",
+          &pass[0..4],
+          &pass[4..8],
+          &pass[8..12],
+          &pass[12..16]
+        ));
+      }
+      Ok(pass_list)
     }
   }
 }
