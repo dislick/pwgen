@@ -1,15 +1,6 @@
 # @dislick/pwgen
 
-Basic CLI password generator. I wasn't satisfied with the speed of [my other pasword generator](https://github.com/dislick/ts-pwgen), so I decided to learn Rust to make it _blazing fast_ 🔥.
-
-### To do
-
-- [x] Parse arguments
-- [x] Add more charsets
-- [ ] Copy to clipboard feature
-- [x] Support more parameters
-- [ ] Documentation
-- [ ] Tests
+CLI password generator with smart defaults and a built-in copy-to-clipboard feature.
 
 ## Usage
 
@@ -40,7 +31,7 @@ SUBCOMMANDS:
 
 ## Defaults
 
-If you run `pwgen` without a `--length` option it will determine the length based on the available charsets to get **at least 256 bits of entropy**. The less different characters that are available through those charsets, the longer the password will get.
+If you run `pwgen` without a `--length` option it will determine the length based on the available charsets to get to **at least 256 bits of entropy**. The less different characters that are available through those charsets, the longer the resulting password will get.
 
 Without charset flags (`-a`, `-A`, `-n`, or `-s`) present, it uses all possible charsets.
 
