@@ -12,9 +12,19 @@ use rand::Rng;
 
 fn main() {
     let options = Options::setup();
+    let options_secret = Options {
+        length: 256, // TODO: this is not 256 bits of entropy, but much more.
+        count: 1,
+        subcommand: SubCommand::None,
+    };
 
-    for _ in 0..options.count {
-        println!("{}", gen_password(&options));
+    match options.subcommand {
+        SubCommand::None => {
+            for _ in 0..options.count {
+                println!("{}", gen_password(&options));
+            }
+        }
+        SubCommand::Secret => println!("{}", gen_password(&options_secret)),
     }
 }
 
