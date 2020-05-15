@@ -1,7 +1,15 @@
+use crate::charset::Charset;
+use crate::consts::*;
+
 pub struct Options {
+  pub generator_options: GeneratorOptions,
+  pub subcommand: SubCommand,
+}
+
+pub struct GeneratorOptions {
   pub length: u32,
   pub count: u32,
-  pub subcommand: SubCommand,
+  pub charsets: Vec<Charset>,
 }
 
 pub enum SubCommand {
@@ -29,16 +37,19 @@ impl Options {
         _ => SubCommand::None,
       },
 
-      length: matches
-        .value_of("LENGTH")
-        .unwrap_or("30")
-        .parse()
-        .expect("Password length must be a number"),
-      count: matches
-        .value_of("COUNT")
-        .unwrap_or("1")
-        .parse()
-        .expect("Count must be a number"),
+      generator_options: GeneratorOptions {
+        length: matches
+          .value_of("LENGTH")
+          .unwrap_or("30")
+          .parse()
+          .expect("Password length must be a number"),
+        count: matches
+          .value_of("COUNT")
+          .unwrap_or("1")
+          .parse()
+          .expect("Count must be a number"),
+        charsets: vec![Charset::new(&CHARSET_ALPHABET)],
+      },
     }
   }
 }

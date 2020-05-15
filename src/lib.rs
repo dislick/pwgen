@@ -5,16 +5,19 @@ mod options;
 #[macro_use]
 extern crate clap;
 
-use crate::charset::*;
-use crate::consts::*;
+pub use crate::charset::*;
+pub use crate::consts::*;
 pub use crate::options::*;
 use rand::Rng;
 
-pub fn run(options: &Options, options_secret: &Options) -> Result<(), Box<dyn std::error::Error>> {
+pub fn run(
+  options: &Options,
+  options_secret: &GeneratorOptions,
+) -> Result<(), Box<dyn std::error::Error>> {
   match options.subcommand {
     SubCommand::None => {
-      for _ in 0..options.count {
-        println!("{}", gen_password(&options));
+      for _ in 0..options.generator_options.count {
+        println!("{}", gen_password(&options.generator_options));
       }
     }
     SubCommand::Secret => println!("{}", gen_password(&options_secret)),
@@ -23,25 +26,15 @@ pub fn run(options: &Options, options_secret: &Options) -> Result<(), Box<dyn st
   Ok(())
 }
 
-pub fn gen_password(options: &Options) -> String {
+pub fn gen_password(options: &GeneratorOptions) -> String {
   let mut password = String::new();
-  let charsets = setup_charsets();
 
   for _ in 0..options.length {
-    let charset = get_random_charset(&charsets);
+    let charset = get_random_charset(&options.charsets);
     password.push(charset.get_rand_char());
   }
 
   password
-}
-
-fn setup_charsets() -> Vec<Charset> {
-  vec![
-    Charset::new(&CHARSET_ALPHABET),
-    Charset::new(&CHARSET_ALPHABET_UPPERCASE),
-    Charset::new(&CHARSET_NUMBERS),
-    Charset::new(&CHARSET_SPECIAL),
-  ]
 }
 
 fn get_random_charset(charsets: &Vec<Charset>) -> &Charset {
