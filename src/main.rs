@@ -1,37 +1,33 @@
 mod charset;
 mod consts;
+mod options;
 
 #[macro_use]
 extern crate clap;
 
 use crate::charset::*;
 use crate::consts::*;
+use crate::options::*;
 use rand::Rng;
 
 fn main() {
-    let matches = clap_app!(pwgen =>
-        (version: "0.1.0")
-        (author: "Patrick Muff <muff.pa@gmail.com>")
-        (about: "Generates random passwords")
-        (@arg LENGTH: -l --length +takes_value "Sets password length")
-    )
-    .get_matches();
+    let options = Options::setup();
 
-    let password_length: u32 = matches
-        .value_of("LENGTH")
-        .unwrap_or("30")
-        .parse()
-        .expect("Password length must be a number");
+    for _ in 0..options.count {
+        println!("{}", gen_password(&options));
+    }
+}
 
+fn gen_password(options: &Options) -> String {
     let mut password = String::new();
     let charsets = setup_charsets();
 
-    for _ in 0..password_length {
+    for _ in 0..options.length {
         let charset = get_random_charset(&charsets);
         password.push(charset.get_rand_char());
     }
 
-    println!("{}", password);
+    password
 }
 
 fn setup_charsets() -> Vec<Charset> {
